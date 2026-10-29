@@ -5,19 +5,19 @@ project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 pid_file="$project_dir/runtime/pids.tsv"
 
 if [[ ! -f "$pid_file" ]]; then
-  echo "Nenhum arquivo de processos encontrado."
+  echo "No process file found."
   exit 0
 fi
 
-# Interrompe primeiro os produtores para impedir novas requisições durante a drenagem.
+# Stops producers first to prevent new requests during queue draining.
 while IFS=$'\t' read -r process_name process_pid; do
   if [[ "$process_name" == cliente-* ]] && kill -0 "$process_pid" 2>/dev/null; then
     kill "$process_pid"
-    echo "Cliente finalizado: $process_name"
+    echo "Client stopped: $process_name"
   fi
 done < "$pid_file"
 
-# Aguarda os clientes concluírem o número já persistido antes de encerrar.
+# Waits for clients to finish accepting the number already persisted in their logs.
 for _ in {1..60}; do
   client_alive=false
   while IFS=$'\t' read -r process_name process_pid; do
@@ -31,7 +31,7 @@ for _ in {1..60}; do
   sleep 0.25
 done
 
-echo "Aguardando as workers pendentes serem persistidas..."
+echo "Waiting for pending workers to persist their requests..."
 drained=false
 temporary_dir="$(mktemp -d)"
 trap 'rm -rf "$temporary_dir"' EXIT
@@ -45,7 +45,7 @@ for attempt in {1..120}; do
       > "$temporary_dir/dados.txt"
     if cmp -s "$temporary_dir/clientes.txt" "$temporary_dir/dados.txt"; then
       drained=true
-      echo "Fila drenada: todos os valores dos clientes foram persistidos."
+      echo "Queue drained: all client values were persisted."
       break
     fi
     if ((attempt % 5 == 0)); then
@@ -55,7 +55,7 @@ for attempt in {1..120}; do
       if ((pending < 0)); then
         pending=0
       fi
-      echo "Ainda aguardando $pending valor(es) distinto(s)..."
+      echo "Still waiting for $pending distinct value(s)..."
     fi
   fi
   sleep 1
@@ -64,14 +64,14 @@ done
 while IFS=$'\t' read -r process_name process_pid; do
   if [[ "$process_name" != cliente-* ]] && kill -0 "$process_pid" 2>/dev/null; then
     kill "$process_pid"
-    echo "Finalizado: $process_name"
+    echo "Stopped: $process_name"
   fi
 done < "$pid_file"
 
 : > "$pid_file"
-echo "Todos os processos foram solicitados a finalizar."
+echo "Every process was requested to stop."
 
 if [[ "$drained" == false ]]; then
-  echo "Aviso: a drenagem nao terminou em 120 segundos; consulte os logs." >&2
+  echo "Warning: draining did not finish within 120 seconds; inspect the logs." >&2
   exit 1
 fi

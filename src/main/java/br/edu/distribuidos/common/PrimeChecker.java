@@ -1,11 +1,11 @@
 package br.edu.distribuidos.common;
 
-/** Fornece o teste de primalidade usado pelas workers de aplicação. */
+/** Provides the primality test used by application workers. */
 public final class PrimeChecker {
     private PrimeChecker() {
     }
 
-    /** Testa divisores ímpares até a raiz quadrada, o suficiente para o domínio 1..1000. */
+    /** Tests odd divisors up to the square root, sufficient for the 1..1000 domain. */
     public static boolean isPrime(int number) {
         if (number < 2) {
             return false;

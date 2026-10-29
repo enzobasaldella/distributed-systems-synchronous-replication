@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.function.Supplier;
 
-/** Replica cada escrita e aguarda o ACK do seguidor antes da liberação do bloqueio. */
+/** Replicates every write and waits for the follower ACK before lock release. */
 final class SynchronousReplicator {
     private static final int CONNECT_TIMEOUT_MS = 2_000;
     private static final int RESPONSE_TIMEOUT_MS = 5_000;
@@ -36,12 +36,12 @@ final class SynchronousReplicator {
                 synchronizeOnce();
                 return;
             } catch (IOException | IllegalArgumentException error) {
-                Console.error(serverId, "Seguidor " + follower
-                        + " indisponivel para sincronizacao; tentando novamente");
+                Console.error(serverId, "Follower " + follower
+                        + " unavailable for synchronization; retrying");
                 Thread.sleep(RETRY_DELAY_MS);
             }
         }
-        throw new InterruptedException("Sincronizacao interrompida");
+        throw new InterruptedException("Synchronization interrupted");
     }
 
     void replicateUntilSuccessful(String requestId, int number, int line)
@@ -53,19 +53,19 @@ final class SynchronousReplicator {
                     return;
                 }
                 if (response.equals("RESYNC_REQUIRED")) {
-                    Console.error(serverId, "Replica divergente; enviando snapshot completo");
+                    Console.error(serverId, "Replica diverged; sending a complete snapshot");
                     synchronizeOnce();
                     return;
                 }
-                throw new IOException("Resposta de replicacao invalida");
+                throw new IOException("Invalid replication response");
             } catch (IOException | IllegalArgumentException error) {
-                // O chamador retém o bloqueio de escrita enquanto o seguidor não volta.
-                Console.error(serverId, "Replicacao pendente da linha " + line
-                        + "; mantendo exclusao mutua e tentando novamente");
+                // The caller retains the write lock until the follower returns.
+                Console.error(serverId, "Replication pending for line " + line
+                        + "; retaining mutual exclusion and retrying");
                 Thread.sleep(RETRY_DELAY_MS);
             }
         }
-        throw new InterruptedException("Replicacao interrompida");
+        throw new InterruptedException("Replication interrupted");
     }
 
     private String replicateOnce(String requestId, int number, int line) throws IOException {
@@ -80,7 +80,7 @@ final class SynchronousReplicator {
             output.flush();
             String response = input.readLine();
             if (response == null) {
-                throw new IOException("Seguidor encerrou sem ACK");
+                throw new IOException("Follower closed without an ACK");
             }
             return response;
         }
@@ -107,9 +107,9 @@ final class SynchronousReplicator {
             String expected = "SYNCED\t" + snapshot.size();
             String response = input.readLine();
             if (!expected.equals(response)) {
-                throw new IOException("ACK de sincronizacao invalido: " + response);
+                throw new IOException("Invalid synchronization ACK: " + response);
             }
-            Console.info(serverId, "Replica sincronizada com " + snapshot.size() + " linhas");
+            Console.info(serverId, "Replica synchronized with " + snapshot.size() + " lines");
         }
     }
 }

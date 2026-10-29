@@ -4,21 +4,21 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.io.IOException;
 
-/** Representa um endpoint TCP no formato {@code host:porta}. */
+/** Represents a TCP endpoint in {@code host:port} format. */
 public record Endpoint(String host, int port) {
     public Endpoint {
         if (host == null || host.isBlank()) {
-            throw new IllegalArgumentException("O host nao pode ser vazio");
+            throw new IllegalArgumentException("Host cannot be empty");
         }
         if (port < 1 || port > 65_535) {
-            throw new IllegalArgumentException("Porta invalida: " + port);
+            throw new IllegalArgumentException("Invalid port: " + port);
         }
     }
 
     public static Endpoint parse(String value) {
         int separator = value.lastIndexOf(':');
         if (separator <= 0 || separator == value.length() - 1) {
-            throw new IllegalArgumentException("Endereco invalido: " + value + " (use host:porta)");
+            throw new IllegalArgumentException("Invalid endpoint: " + value + " (use host:port)");
         }
         return new Endpoint(value.substring(0, separator),
                 Integer.parseInt(value.substring(separator + 1)));

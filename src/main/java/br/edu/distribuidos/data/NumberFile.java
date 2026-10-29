@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Executa operações duráveis sobre arquivos que armazenam um número por linha. */
+/** Performs durable operations on files that store one number per line. */
 final class NumberFile {
     private NumberFile() {
     }
@@ -38,13 +38,13 @@ final class NumberFile {
             try {
                 number = Integer.parseInt(text.trim());
             } catch (NumberFormatException error) {
-                throw new IOException("Valor invalido em " + path + ", linha " + physicalLine, error);
+                throw new IOException("Invalid value in " + path + " at line " + physicalLine, error);
             }
             if (number < 1 || number > 1_000) {
-                throw new IOException("Numero fora do intervalo em " + path + ", linha " + physicalLine);
+                throw new IOException("Number out of range in " + path + " at line " + physicalLine);
             }
             if (!unique.add(number)) {
-                throw new IOException("Numero duplicado em " + path + ": " + number);
+                throw new IOException("Duplicate number in " + path + ": " + number);
             }
             numbers.add(number);
         }

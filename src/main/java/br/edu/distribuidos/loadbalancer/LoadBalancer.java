@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 
-/** Distribui requisições por Round Robin e aplica failover circular entre aplicações. */
+/** Distributes requests using Round Robin with circular application-server failover. */
 public final class LoadBalancer {
     private static final int CONNECT_TIMEOUT_MS = 1_000;
     private static final int RESPONSE_TIMEOUT_MS = 3_000;
@@ -33,7 +33,7 @@ public final class LoadBalancer {
 
     private LoadBalancer(int listenPort, List<Endpoint> applicationServers) {
         if (applicationServers.isEmpty()) {
-            throw new IllegalArgumentException("Informe pelo menos um servidor de aplicacao");
+            throw new IllegalArgumentException("At least one application server is required");
         }
         this.listenPort = listenPort;
         this.applicationServers = List.copyOf(applicationServers);
@@ -41,7 +41,7 @@ public final class LoadBalancer {
 
     public static void main(String[] args) throws IOException {
         if (args.length != 0 && args.length != 2) {
-            System.err.println("Uso: LoadBalancer [porta host1:porta1,host2:porta2,host3:porta3]");
+            System.err.println("Usage: LoadBalancer [port host1:port1,host2:port2,host3:port3]");
             System.exit(2);
         }
         int port = args.length == 2 ? Integer.parseInt(args[0]) : 5_000;
@@ -57,8 +57,8 @@ public final class LoadBalancer {
         try (ServerSocket server = new ServerSocket()) {
             server.setReuseAddress(true);
             server.bind(new InetSocketAddress("localhost", listenPort));
-            Console.info("balanceador", "Ouvindo localhost:" + listenPort
-                    + " com Round Robin entre " + applicationServers);
+            Console.info("load-balancer", "Listening on localhost:" + listenPort
+                    + " with Round Robin across " + applicationServers);
             while (true) {
                 Socket client = server.accept();
                 client.setTcpNoDelay(true);
@@ -79,17 +79,17 @@ public final class LoadBalancer {
             Endpoint selected = forwardWithFailover(request);
             if (selected == null) {
                 output.write("RETRY\t" + request.requestId());
-                Console.error("balanceador", "Nenhum servidor disponivel para " + request.requestId());
+                Console.error("load-balancer", "No server available for " + request.requestId());
             } else {
                 output.write("ACCEPTED\t" + request.requestId());
-                Console.info("balanceador", "Numero " + request.number() + " -> " + selected);
+                Console.info("load-balancer", "Number " + request.number() + " -> " + selected);
             }
             output.newLine();
             output.flush();
         } catch (IllegalArgumentException error) {
-            Console.error("balanceador", error.getMessage());
+            Console.error("load-balancer", error.getMessage());
         } catch (IOException error) {
-            Console.error("balanceador", "Conexao de cliente encerrada: " + error.getMessage());
+            Console.error("load-balancer", "Client connection closed: " + error.getMessage());
         }
     }
 
@@ -117,7 +117,7 @@ public final class LoadBalancer {
             String response = input.readLine();
             return response != null && response.startsWith("ACCEPTED\t" + request.requestId());
         } catch (IOException error) {
-            Console.error("balanceador", endpoint + " indisponivel; tentando o proximo");
+            Console.error("load-balancer", endpoint + " unavailable; trying the next server");
             return false;
         }
     }

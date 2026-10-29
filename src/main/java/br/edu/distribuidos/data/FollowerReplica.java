@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
-/** Mantém a cópia passiva atualizada exclusivamente pelo canal privado de replicação. */
+/** Keeps the passive copy updated exclusively through the private replication channel. */
 final class FollowerReplica {
     private final Path file;
     private final ReentrantLock mutationLock = new ReentrantLock(true);
@@ -64,7 +64,7 @@ final class FollowerReplica {
         for (int index = 0; index < copy.size(); index++) {
             Integer previous = lines.put(copy.get(index), index + 1);
             if (previous != null) {
-                throw new IllegalArgumentException("Snapshot contem numero duplicado: " + copy.get(index));
+                throw new IllegalArgumentException("Snapshot contains duplicate number: " + copy.get(index));
             }
         }
         this.numbers = copy;

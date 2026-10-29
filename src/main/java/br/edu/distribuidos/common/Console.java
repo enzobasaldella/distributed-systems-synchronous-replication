@@ -3,7 +3,7 @@ package br.edu.distribuidos.common;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-/** Centraliza saídas de console curtas, legíveis e serializadas entre threads. */
+/** Centralizes short, readable console output serialized across threads. */
 public final class Console {
     private static final DateTimeFormatter TIME = DateTimeFormatter.ofPattern("HH:mm:ss.SSS");
 
@@ -15,6 +15,6 @@ public final class Console {
     }
 
     public static synchronized void error(String component, String message) {
-        System.err.printf("%s [%s] ERRO: %s%n", LocalTime.now().format(TIME), component, message);
+        System.err.printf("%s [%s] ERROR: %s%n", LocalTime.now().format(TIME), component, message);
     }
 }

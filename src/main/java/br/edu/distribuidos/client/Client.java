@@ -22,7 +22,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-/** Gera números, persiste o log local e os envia até receber a confirmação de aceite. */
+/** Generates numbers, persists the local log, and sends them until acceptance. */
 public final class Client {
     private static final int CONNECT_TIMEOUT_MS = 2_000;
     private static final int RESPONSE_TIMEOUT_MS = 5_000;
@@ -42,8 +42,8 @@ public final class Client {
 
     public static void main(String[] args) throws Exception {
         if (args.length != 1 && args.length != 4) {
-            System.err.println("Uso: Client <id> [host-balanceador porta-balanceador arquivo-log]");
-            System.err.println("Exemplo: Client cliente-1 localhost 5000 data/cliente-1.log");
+            System.err.println("Usage: Client <id> [load-balancer-host load-balancer-port log-file]");
+            System.err.println("Example: Client cliente-1 localhost 5000 data/cliente-1.log");
             System.exit(2);
         }
 
@@ -63,14 +63,14 @@ public final class Client {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             running.set(false);
             try {
-                // Permite que um número já persistido no log termine de ser aceito.
+                // Allows a number already persisted in the log to finish being accepted.
                 stopped.await(15, TimeUnit.SECONDS);
             } catch (InterruptedException error) {
                 Thread.currentThread().interrupt();
             }
         }, clientId + "-encerramento"));
 
-        Console.info(clientId, "Iniciado; balanceador=" + loadBalancer + ", log=" + logFile);
+        Console.info(clientId, "Started; load-balancer=" + loadBalancer + ", log=" + logFile);
         long sequence = 0;
         try (FileChannel log = FileChannel.open(logFile, StandardOpenOption.CREATE,
                 StandardOpenOption.WRITE, StandardOpenOption.APPEND)) {
@@ -104,12 +104,12 @@ public final class Client {
 
                 String response = input.readLine();
                 if (response != null && response.startsWith("ACCEPTED\t" + request.requestId())) {
-                    Console.info(clientId, "Numero " + request.number() + " aceito pelo balanceador");
+                    Console.info(clientId, "Number " + request.number() + " accepted by load balancer");
                     return;
                 }
-                Console.error(clientId, "Balanceador pediu nova tentativa para " + request.number());
+                Console.error(clientId, "Load balancer requested a retry for " + request.number());
             } catch (IOException error) {
-                Console.error(clientId, "Balanceador indisponivel; a requisicao sera reenviada");
+                Console.error(clientId, "Load balancer unavailable; request will be resent");
             }
             Thread.sleep(RETRY_DELAY_MS);
         }

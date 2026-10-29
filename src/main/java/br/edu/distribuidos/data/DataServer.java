@@ -22,11 +22,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * Executa um servidor de dados como líder ou seguidor da replicação síncrona.
+ * Runs a data server as either the leader or follower in synchronous replication.
  *
- * <p>O seguidor possui duas portas: a pública encaminha {@code STORE} ao líder e a
- * privada recebe {@code REPLICATE} e {@code SYNC}. Essa separação evita deadlock
- * durante a replicação.</p>
+ * <p>The follower has two ports: the public port forwards {@code STORE} to the leader,
+ * while the private port receives {@code REPLICATE} and {@code SYNC}. This separation
+ * prevents deadlock during replication.</p>
  */
 public final class DataServer {
     private static final int CONNECT_TIMEOUT_MS = 2_000;
@@ -62,20 +62,20 @@ public final class DataServer {
 
     public static void main(String[] args) throws Exception {
         if (args.length != 6) {
-            System.err.println("Uso: DataServer <id> <leader|follower> <porta-publica> "
-                    + "<porta-replicacao-ou-0> <arquivo> <host-peer:porta-peer>");
-            System.err.println("Leader:   DataServer dados-1 leader 7001 0 arquivo1 localhost:7102");
-            System.err.println("Follower: DataServer dados-2 follower 7002 7102 arquivo2 localhost:7001");
+            System.err.println("Usage: DataServer <id> <leader|follower> <public-port> "
+                    + "<replication-port-or-0> <file> <peer-host:peer-port>");
+            System.err.println("Leader:   DataServer dados-1 leader 7001 0 file1 localhost:7102");
+            System.err.println("Follower: DataServer dados-2 follower 7002 7102 file2 localhost:7001");
             System.exit(2);
         }
         Role role = switch (args[1].toLowerCase()) {
             case "leader" -> Role.LEADER;
             case "follower" -> Role.FOLLOWER;
-            default -> throw new IllegalArgumentException("Papel deve ser leader ou follower");
+            default -> throw new IllegalArgumentException("Role must be leader or follower");
         };
         int replicationPort = Integer.parseInt(args[3]);
         if (role == Role.FOLLOWER && replicationPort < 1) {
-            throw new IllegalArgumentException("O seguidor precisa de uma porta de replicacao");
+            throw new IllegalArgumentException("Follower requires a replication port");
         }
         DataServer server = new DataServer(args[0], role, Integer.parseInt(args[2]),
                 replicationPort, Path.of(args[4]), Endpoint.parse(args[5]));
@@ -93,12 +93,12 @@ public final class DataServer {
     private void runLeader() throws IOException, InterruptedException {
         leaderRepository = new LeaderRepository(dataFile);
         replicator = new SynchronousReplicator(serverId, peer, leaderRepository::snapshot);
-        Console.info(serverId, "Lider carregou " + leaderRepository.size()
-                + " linhas; aguardando sincronizacao inicial de " + peer);
+        Console.info(serverId, "Leader loaded " + leaderRepository.size()
+                + " lines; waiting for initial synchronization with " + peer);
         replicator.synchronizeUntilSuccessful();
         try (ServerSocket publicServer = bind(publicPort)) {
-            Console.info(serverId, "Lider ouvindo localhost:" + publicPort
-                    + "; arquivo=" + dataFile);
+            Console.info(serverId, "Leader listening on localhost:" + publicPort
+                    + "; file=" + dataFile);
             acceptPublicConnections(publicServer);
         } finally {
             shutdownWorkers();
@@ -114,8 +114,8 @@ public final class DataServer {
                     serverId + "-aceite-replica");
             replicationAcceptor.setDaemon(true);
             replicationAcceptor.start();
-            Console.info(serverId, "Seguidor ouvindo clientes em localhost:" + publicPort
-                    + " e replicacao em localhost:" + replicationPort + "; arquivo=" + dataFile);
+            Console.info(serverId, "Follower listening for clients on localhost:" + publicPort
+                    + " and replication on localhost:" + replicationPort + "; file=" + dataFile);
             acceptPublicConnections(publicServer);
         } finally {
             shutdownWorkers();
@@ -142,7 +142,7 @@ public final class DataServer {
                 StoreResult result = leaderRepository.store(request, replicator);
                 response = result.encode();
                 if (result.inserted()) {
-                    Console.info(serverId, "Numero " + result.number() + " gravado e replicado na linha "
+                    Console.info(serverId, "Number " + result.number() + " stored and replicated at line "
                             + result.line());
                 }
             } else {
@@ -154,7 +154,7 @@ public final class DataServer {
         } catch (InterruptedException error) {
             Thread.currentThread().interrupt();
         } catch (Exception error) {
-            Console.error(serverId, "Falha ao atender requisicao: " + error.getMessage());
+            Console.error(serverId, "Failed to serve request: " + error.getMessage());
             sendErrorIfPossible(connection, error.getMessage());
         }
     }
@@ -170,7 +170,7 @@ public final class DataServer {
             output.flush();
             String response = input.readLine();
             if (response == null) {
-                throw new IOException("Lider encerrou sem resposta");
+                throw new IOException("Leader closed without a response");
             }
             return response;
         }
@@ -184,7 +184,7 @@ public final class DataServer {
                 replicationWorkers.execute(() -> handleReplicationConnection(connection));
             } catch (IOException error) {
                 if (!server.isClosed()) {
-                    Console.error(serverId, "Falha no aceite de replicacao: " + error.getMessage());
+                    Console.error(serverId, "Failed to accept replication: " + error.getMessage());
                 }
             }
         }
@@ -198,7 +198,7 @@ public final class DataServer {
                      connection.getOutputStream(), StandardCharsets.UTF_8))) {
             String firstLine = input.readLine();
             if (firstLine == null) {
-                throw new IllegalArgumentException("Comando de replicacao vazio");
+                throw new IllegalArgumentException("Empty replication command");
             }
             String[] fields = firstLine.split("\\t", -1);
             String response;
@@ -212,20 +212,20 @@ public final class DataServer {
             } else if (fields.length == 2 && "SYNC".equals(fields[0])) {
                 int count = Integer.parseInt(fields[1]);
                 if (count < 0 || count > 1_000) {
-                    throw new IllegalArgumentException("Tamanho de snapshot invalido");
+                    throw new IllegalArgumentException("Invalid snapshot size");
                 }
                 List<Integer> snapshot = readSnapshot(input, count);
                 followerReplica.replace(snapshot);
                 response = "SYNCED\t" + count;
-                Console.info(serverId, "Snapshot aplicado com " + count + " linhas");
+                Console.info(serverId, "Snapshot applied with " + count + " lines");
             } else {
-                throw new IllegalArgumentException("Comando de replicacao invalido");
+                throw new IllegalArgumentException("Invalid replication command");
             }
             output.write(response);
             output.newLine();
             output.flush();
         } catch (Exception error) {
-            Console.error(serverId, "Falha na replicacao: " + error.getMessage());
+            Console.error(serverId, "Replication failure: " + error.getMessage());
         }
     }
 
@@ -236,16 +236,16 @@ public final class DataServer {
             String line = input.readLine();
             String[] fields = line == null ? new String[0] : line.split("\\t", -1);
             if (fields.length != 2 || !"VALUE".equals(fields[0])) {
-                throw new IllegalArgumentException("Linha de snapshot invalida");
+                throw new IllegalArgumentException("Invalid snapshot line");
             }
             int number = parseNumber(fields[1]);
             if (!unique.add(number)) {
-                throw new IllegalArgumentException("Snapshot contem numero duplicado");
+                throw new IllegalArgumentException("Snapshot contains a duplicate number");
             }
             values.add(number);
         }
         if (!"END".equals(input.readLine())) {
-            throw new IllegalArgumentException("Fim de snapshot invalido");
+            throw new IllegalArgumentException("Invalid snapshot terminator");
         }
         return values;
     }
@@ -253,7 +253,7 @@ public final class DataServer {
     private static int parseNumber(String value) {
         int number = Integer.parseInt(value);
         if (number < 1 || number > 1_000) {
-            throw new IllegalArgumentException("Numero fora do intervalo 1..1000");
+            throw new IllegalArgumentException("Number outside the 1..1000 range");
         }
         return number;
     }
@@ -276,7 +276,7 @@ public final class DataServer {
             output.newLine();
             output.flush();
         } catch (IOException ignored) {
-            // Deixa o chamador repetir a operação se a conexão já estiver encerrada.
+            // Lets the caller retry if the connection has already closed.
         }
     }
 

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-/** Mantém o estado autoritativo sob exclusão mútua justa de leitura e escrita. */
+/** Maintains authoritative state under fair read-write mutual exclusion. */
 final class LeaderRepository {
     private static final int REQUEST_CACHE_SIZE = 10_000;
 
@@ -37,7 +37,7 @@ final class LeaderRepository {
 
     StoreResult store(StoreRequest request, SynchronousReplicator replicator)
             throws IOException, InterruptedException {
-        // Permite leituras paralelas sem deixar que ultrapassem uma escrita pendente.
+        // Allows parallel reads without letting them bypass a pending write.
         lock.readLock().lockInterruptibly();
         try {
             Thread.sleep(ThreadLocalRandom.current().nextInt(100, 301));
@@ -57,7 +57,7 @@ final class LeaderRepository {
             lock.readLock().unlock();
         }
 
-        // Mantém a revalidação, a gravação e o ACK remoto na mesma região crítica.
+        // Keeps revalidation, persistence, and the remote ACK in one critical section.
         lock.writeLock().lockInterruptibly();
         try {
             StoreResult repeated = recentRequests.get(request.requestId());
@@ -78,7 +78,7 @@ final class LeaderRepository {
             numbers.add(request.number());
             lineByNumber.put(request.number(), line);
 
-            // Responde à aplicação somente depois da confirmação remota.
+            // Responds to the application only after remote acknowledgment.
             replicator.replicateUntilSuccessful(request.requestId(), request.number(), line);
             StoreResult result = new StoreResult(request.requestId(), request.number(), line, true);
             recentRequests.put(request.requestId(), result);
@@ -108,7 +108,7 @@ final class LeaderRepository {
 
     private static void requireSameNumber(StoreRequest request, StoreResult result) {
         if (request.number() != result.number()) {
-            throw new IllegalArgumentException("O requestId foi reutilizado com outro numero");
+            throw new IllegalArgumentException("requestId was reused with a different number");
         }
     }
 }

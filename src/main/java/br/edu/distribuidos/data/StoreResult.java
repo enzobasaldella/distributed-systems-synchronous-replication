@@ -1,10 +1,10 @@
 package br.edu.distribuidos.data;
 
-/** Descreve se o número foi inserido e a linha em que ele está armazenado. */
+/** Describes whether the number was inserted and the line where it is stored. */
 record StoreResult(String requestId, int number, int line, boolean inserted) {
     StoreResult {
         if (line < 1) {
-            throw new IllegalArgumentException("A linha deve ser positiva");
+            throw new IllegalArgumentException("Line number must be positive");
         }
     }
 

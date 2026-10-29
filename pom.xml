@@ -7,8 +7,8 @@
     <groupId>br.edu.distribuidos</groupId>
     <artifactId>projeto-sistemas-distribuidos</artifactId>
     <version>1.0.0</version>
-    <name>Projeto de Sistemas Distribuídos</name>
-    <description>Arquitetura cliente-servidor com balanceamento e replicação síncrona.</description>
+    <name>Distributed Systems Project</name>
+    <description>Client-server architecture with load balancing and synchronous replication.</description>
 
     <properties>
         <maven.compiler.release>17</maven.compiler.release>

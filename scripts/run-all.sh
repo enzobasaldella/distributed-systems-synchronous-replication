@@ -13,8 +13,8 @@ mkdir -p "$runtime_dir" "$log_dir" "$data_dir"
 if [[ -f "$pid_file" ]]; then
   while IFS=$'\t' read -r process_name process_pid; do
     if [[ -n "${process_pid:-}" ]] && kill -0 "$process_pid" 2>/dev/null; then
-      echo "Erro: $process_name (PID $process_pid) ainda esta em execucao." >&2
-      echo "Execute scripts/stop-all.sh antes de iniciar novamente." >&2
+      echo "Error: $process_name (PID $process_pid) is still running." >&2
+      echo "Run scripts/stop-all.sh before starting the system again." >&2
       exit 1
     fi
   done < "$pid_file"
@@ -30,10 +30,10 @@ start_process() {
     > "$log_dir/$process_name.log" 2>&1 &
   local process_pid=$!
   printf '%s\t%s\n' "$process_name" "$process_pid" >> "$pid_file"
-  echo "Iniciado: $process_name (PID $process_pid)"
+  echo "Started: $process_name (PID $process_pid)"
 }
 
-# Inicia o seguidor antes da sincronização obrigatória do líder.
+# Starts the follower before the leader performs its mandatory initial synchronization.
 start_process dados-2 br.edu.distribuidos.data.DataServer \
   dados-2 follower 7002 7102 "$data_dir/servidor-dados-2.txt" localhost:7001
 start_process dados-1 br.edu.distribuidos.data.DataServer \
@@ -56,6 +56,6 @@ start_process cliente-2 br.edu.distribuidos.client.Client \
   cliente-2 localhost 5000 "$data_dir/cliente-2.log"
 
 echo
-echo "Sistema iniciado. Logs dos processos: $log_dir"
-echo "Acompanhe, por exemplo: tail -f '$log_dir/aplicacao-1.log'"
-echo "Finalize com: scripts/stop-all.sh"
+echo "System started. Process logs: $log_dir"
+echo "Follow a log, for example: tail -f '$log_dir/aplicacao-1.log'"
+echo "Stop with: scripts/stop-all.sh"

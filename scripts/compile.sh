@@ -12,11 +12,11 @@ if command -v javac >/dev/null 2>&1; then
   compiler=(javac -encoding UTF-8 --release 17 -Xlint:all)
 elif command -v java >/dev/null 2>&1 \
     && java --list-modules 2>/dev/null | grep -q '^jdk.compiler@'; then
-  # Usa o módulo compilador quando o runtime possui jdk.compiler, mas não o javac.
+  # Uses the compiler module when the runtime provides jdk.compiler but not javac.
   compiler=(java --module jdk.compiler/com.sun.tools.javac.Main \
     -encoding UTF-8 -source 17 -target 17 -Xlint:all,-options)
 else
-  echo "Erro: compilador Java nao encontrado. Instale um JDK 17 ou mais recente." >&2
+  echo "Error: Java compiler not found. Install JDK 17 or newer." >&2
   exit 1
 fi
 
@@ -26,4 +26,4 @@ if ((${#test_sources[@]} > 0)); then
     -d build/test-classes "${test_sources[@]}"
 fi
 
-echo "Compilacao concluida em build/classes."
+echo "Compilation completed in build/classes."

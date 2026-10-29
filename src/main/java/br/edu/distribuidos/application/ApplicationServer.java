@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 
-/** Recebe requisições do balanceador e delega cada uma a uma worker independente. */
+/** Receives load-balancer requests and delegates each one to an independent worker. */
 public final class ApplicationServer {
     private static final int CONNECT_TIMEOUT_MS = 2_000;
     private static final int RETRY_DELAY_MS = 300;
@@ -34,7 +34,7 @@ public final class ApplicationServer {
 
     private ApplicationServer(String serverId, int listenPort, List<Endpoint> dataServers) {
         if (dataServers.size() != 2) {
-            throw new IllegalArgumentException("Devem ser informados exatamente 2 servidores de dados");
+            throw new IllegalArgumentException("Exactly two data servers are required");
         }
         this.serverId = serverId;
         this.listenPort = listenPort;
@@ -47,7 +47,7 @@ public final class ApplicationServer {
 
     public static void main(String[] args) throws IOException {
         if (args.length != 2 && args.length != 3) {
-            System.err.println("Uso: ApplicationServer <id> <porta> [dados1:porta,dados2:porta]");
+            System.err.println("Usage: ApplicationServer <id> <port> [data1:port,data2:port]");
             System.exit(2);
         }
         String endpoints = args.length == 3 ? args[2] : "localhost:7001,localhost:7002";
@@ -61,7 +61,7 @@ public final class ApplicationServer {
         try (ServerSocket server = new ServerSocket()) {
             server.setReuseAddress(true);
             server.bind(new InetSocketAddress("localhost", listenPort));
-            Console.info(serverId, "Ouvindo localhost:" + listenPort + "; dados=" + dataServers);
+            Console.info(serverId, "Listening on localhost:" + listenPort + "; data=" + dataServers);
             while (true) {
                 Socket connection = server.accept();
                 connection.setTcpNoDelay(true);
@@ -87,21 +87,21 @@ public final class ApplicationServer {
         } catch (IllegalArgumentException error) {
             Console.error(serverId, error.getMessage());
         } catch (IOException error) {
-            Console.error(serverId, "Falha ao receber requisicao: " + error.getMessage());
+            Console.error(serverId, "Failed to receive request: " + error.getMessage());
         }
     }
 
     private void processRequest(CheckRequest request) {
-        // Testa a primalidade antes de consultar os dados, preservando a ordem exigida.
+        // Tests primality before querying the data layer, preserving the required order.
         boolean prime = PrimeChecker.isPrime(request.number());
         DataResult result = storeUntilSuccessful(request);
-        String primality = prime ? "é primo" : "não é primo";
+        String primality = prime ? "is prime" : "is not prime";
         if (result.inserted()) {
-            Console.info(serverId, "O número " + request.number() + " " + primality
-                    + ", não está presente no arquivo, e foi inserido na linha " + result.line());
+            Console.info(serverId, "The number " + request.number() + " " + primality
+                    + ", was not present, and was inserted at line " + result.line());
         } else {
-            Console.info(serverId, "O número " + request.number() + " " + primality
-                    + ", e já se encontra no arquivo na linha " + result.line());
+            Console.info(serverId, "The number " + request.number() + " " + primality
+                    + " and is already stored at line " + result.line());
         }
     }
 
@@ -113,10 +113,10 @@ public final class ApplicationServer {
             attempt++;
             try {
                 DataResult result = store(request, endpoint);
-                Console.info(serverId, "Requisicao " + request.requestId() + " atendida por " + endpoint);
+                Console.info(serverId, "Request " + request.requestId() + " served by " + endpoint);
                 return result;
             } catch (IOException | IllegalArgumentException error) {
-                Console.error(serverId, endpoint + " indisponivel; requisicao mantida para nova tentativa");
+                Console.error(serverId, endpoint + " unavailable; request retained for retry");
                 try {
                     Thread.sleep(RETRY_DELAY_MS);
                 } catch (InterruptedException interrupted) {
@@ -125,7 +125,7 @@ public final class ApplicationServer {
                 }
             }
         }
-        throw new IllegalStateException("Worker interrompida antes de armazenar a requisicao");
+        throw new IllegalStateException("Worker interrupted before storing the request");
     }
 
     private DataResult store(CheckRequest request, Endpoint endpoint) throws IOException {
@@ -134,7 +134,7 @@ public final class ApplicationServer {
                      socket.getOutputStream(), StandardCharsets.UTF_8));
              BufferedReader input = new BufferedReader(new InputStreamReader(
                      socket.getInputStream(), StandardCharsets.UTF_8))) {
-            // Mantém a worker aguardando enquanto a replicação síncrona estiver pendente.
+            // Keeps the worker waiting while synchronous replication is pending.
             output.write("STORE\t" + request.requestId() + "\t" + request.number());
             output.newLine();
             output.flush();
@@ -145,21 +145,21 @@ public final class ApplicationServer {
     private record DataResult(boolean inserted, int line) {
         private static DataResult decode(String response, String requestId, int number) {
             if (response == null) {
-                throw new IllegalArgumentException("Servidor de dados encerrou sem resposta");
+                throw new IllegalArgumentException("Data server closed without a response");
             }
             String[] fields = response.split("\\t", -1);
             if (fields.length != 5 || !"RESULT".equals(fields[0])
                     || !requestId.equals(fields[1]) || Integer.parseInt(fields[3]) != number) {
-                throw new IllegalArgumentException("Resposta invalida do servidor de dados");
+                throw new IllegalArgumentException("Invalid data-server response");
             }
             boolean inserted = switch (fields[2]) {
                 case "INSERTED" -> true;
                 case "EXISTS" -> false;
-                default -> throw new IllegalArgumentException("Status de dados invalido");
+                default -> throw new IllegalArgumentException("Invalid data status");
             };
             int line = Integer.parseInt(fields[4]);
             if (line < 1) {
-                throw new IllegalArgumentException("Linha invalida na resposta");
+                throw new IllegalArgumentException("Invalid line number in response");
             }
             return new DataResult(inserted, line);
         }
