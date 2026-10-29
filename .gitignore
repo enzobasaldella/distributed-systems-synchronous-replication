@@ -1,0 +1,21 @@
+# Build outputs
+/build/
+/target/
+*.class
+
+# Generated runtime state
+/data/
+/runtime/
+*.log
+
+# Local course and reference documents
+*.pdf
+
+# Editors and operating systems
+/.idea/
+/.vscode/
+/.settings/
+.classpath
+.project
+.DS_Store
+Thumbs.db
