@@ -29,19 +29,19 @@ order, persists the value, and waits for replica acknowledgment before replying.
 
 ```mermaid
 flowchart LR
-    C1[Client 1] -->|TCP 5000| LB[Load Balancer<br/>Round Robin]
-    C2[Client 2] -->|TCP 5000| LB
-    LB -->|TCP 6001| A1[Application 1]
-    LB -->|TCP 6002| A2[Application 2]
-    LB -->|TCP 6003| A3[Application 3]
-    A1 -->|random choice| D1[Data 1<br/>leader :7001]
-    A1 -->|random choice| D2[Data 2<br/>follower :7002]
+    C1[Client 1] -->| TCP 5000 | LB[Load Balancer<br/>Round Robin]
+    C2[Client 2] -->| TCP 5000 | LB
+    LB -->| TCP 6001 | A1[Application 1]
+    LB -->| TCP 6002 | A2[Application 2]
+    LB -->| TCP 6003 | A3[Application 3]
+    A1 -->| random choice | D1[Data 1<br/>leader :7001]
+    A1 -->| random choice | D2[Data 2<br/>follower :7002]
     A2 --> D1
     A2 --> D2
     A3 --> D1
     A3 --> D2
-    D2 -->|forwards STORE| D1
-    D1 -->|REPLICATE + ACK<br/>TCP 7102| D2
+    D2 -->| forwards STORE | D1
+    D1 -->| REPLICATE + ACK<br/>TCP 7102 | D2
 ```
 
 ## Design Decisions
