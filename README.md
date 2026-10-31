@@ -189,7 +189,7 @@ Messages are UTF-8 lines with tab-separated fields.
 ```text
 .
 ├── .github/workflows/   automated GitHub validation
-├── docs/                presentation guide
+├── logs/demo/           selected logs from a captured execution
 ├── scripts/             compilation, execution, and verification
 ├── src/main/java/       component implementation
 ├── src/test/java/       tests that require only the JDK
@@ -198,7 +198,8 @@ Messages are UTF-8 lines with tab-separated fields.
 ```
 
 The `build/`, `data/`, `runtime/`, and `target/` directories are generated locally and
-are not part of the versioned source code.
+are not part of the versioned source code. `logs/demo/` is the exception to the general
+`*.log` ignore rule: it contains only selected records from one captured run.
 
 ## Validation
 
@@ -212,7 +213,14 @@ The project has two complementary validation levels:
 The GitHub workflow runs the first level automatically on pushes and pull requests.
 Consistency verification depends on all eight processes and must run locally.
 
-## Presentation
+## Captured Example Run
 
-The demonstration outline, design rationale, and likely questions are documented in
-Portuguese in [`docs/APRESENTACAO.md`](docs/APRESENTACAO.md).
+The selected records for a measured execution are kept under [`logs/demo/`](logs/demo/):
+
+- `balanceador.log` is the source for request-distribution counts (73, 73, and 72);
+- `aplicacao-2.log` records the example value `326` being stored at line `1`;
+- `dados-1.log` records the leader's persistence and replication of that value;
+- `verify-consistency.txt` records the final replica and client-data verification.
+
+These are sample evidence only. A fresh execution writes current logs to
+`runtime/logs/`, which remains ignored by Git.

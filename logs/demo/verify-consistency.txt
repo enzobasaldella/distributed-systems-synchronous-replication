@@ -1,0 +1,2 @@
+OK: replicas are identical and every client value is stored.
+Generated: 218; distinct persisted: 190.

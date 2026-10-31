@@ -8,6 +8,11 @@
 /runtime/
 *.log
 
+# A small, intentional set of captured logs is kept as an example run.
+!logs/
+!logs/demo/
+!logs/demo/*.log
+
 # Local course and reference documents
 *.pdf
 

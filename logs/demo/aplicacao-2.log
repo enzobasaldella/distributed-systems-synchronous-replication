@@ -1,0 +1,147 @@
+18:05:00.474 [aplicacao-2] Listening on localhost:6002; data=[localhost:7001, localhost:7002]
+18:05:01.633 [aplicacao-2] Request cliente-1-1-a3c2fbf4-02d2-41ff-add5-70466fac431a served by localhost:7001
+18:05:01.637 [aplicacao-2] The number 326 is not prime, was not present, and was inserted at line 1
+18:05:02.226 [aplicacao-2] Request cliente-1-3-c5a2e212-b780-4a95-913b-3dbd64042917 served by localhost:7001
+18:05:02.226 [aplicacao-2] The number 815 is not prime, was not present, and was inserted at line 6
+18:05:02.516 [aplicacao-2] Request cliente-2-4-6e196f60-e108-4b6a-ac5d-b125d152f434 served by localhost:7001
+18:05:02.517 [aplicacao-2] The number 373 is prime, was not present, and was inserted at line 8
+18:05:02.788 [aplicacao-2] Request cliente-2-6-f390705c-3ea8-405a-b637-9d03b783a4fb served by localhost:7001
+18:05:02.788 [aplicacao-2] The number 708 is not prime, was not present, and was inserted at line 11
+18:05:03.107 [aplicacao-2] Request cliente-2-8-c6c5c314-e1e0-498d-929f-eb983241d340 served by localhost:7002
+18:05:03.108 [aplicacao-2] The number 891 is not prime, was not present, and was inserted at line 14
+18:05:03.405 [aplicacao-2] Request cliente-1-8-a9135c9c-9129-4598-9a9e-8a75f23ff286 served by localhost:7002
+18:05:03.405 [aplicacao-2] The number 260 is not prime, was not present, and was inserted at line 17
+18:05:03.879 [aplicacao-2] Request cliente-2-11-f1588640-c4f2-4665-af5d-6e7f3453886a served by localhost:7002
+18:05:03.879 [aplicacao-2] The number 771 is not prime and is already stored at line 16
+18:05:04.406 [aplicacao-2] Request cliente-2-12-fa0e84c8-77c9-417d-b712-51a320bd22a3 served by localhost:7001
+18:05:04.406 [aplicacao-2] The number 784 is not prime, was not present, and was inserted at line 21
+18:05:04.935 [aplicacao-2] Request cliente-2-14-c72a5e7e-c4d6-4214-a196-677611051424 served by localhost:7001
+18:05:04.935 [aplicacao-2] The number 860 is not prime, was not present, and was inserted at line 23
+18:05:05.552 [aplicacao-2] Request cliente-2-16-3e2879a7-4d2d-4b81-bb50-a77ef69f2886 served by localhost:7002
+18:05:05.552 [aplicacao-2] The number 74 is not prime, was not present, and was inserted at line 27
+18:05:06.049 [aplicacao-2] Request cliente-1-15-d77c2b4f-7c6c-4399-ab6b-cbdadec1096e served by localhost:7002
+18:05:06.050 [aplicacao-2] The number 544 is not prime, was not present, and was inserted at line 30
+18:05:06.490 [aplicacao-2] Request cliente-2-27-c8c05923-3bf8-4625-abc0-f9352c86a006 served by localhost:7001
+18:05:06.491 [aplicacao-2] The number 379 is prime and is already stored at line 28
+18:05:06.873 [aplicacao-2] Request cliente-1-17-8abc3a99-bb32-49b0-94cb-ad66a6ff5153 served by localhost:7001
+18:05:06.873 [aplicacao-2] The number 233 is prime, was not present, and was inserted at line 34
+18:05:07.259 [aplicacao-2] Request cliente-1-19-f48d31c0-1164-445c-919f-e655cfd1dd86 served by localhost:7001
+18:05:07.260 [aplicacao-2] The number 535 is not prime, was not present, and was inserted at line 37
+18:05:07.725 [aplicacao-2] Request cliente-2-21-bd13e944-2c46-4927-8773-c4ad7276b050 served by localhost:7002
+18:05:07.726 [aplicacao-2] The number 612 is not prime, was not present, and was inserted at line 39
+18:05:08.229 [aplicacao-2] Request cliente-1-22-be55ebb5-5607-4c54-814d-323d079f4c9b served by localhost:7001
+18:05:08.229 [aplicacao-2] The number 767 is not prime, was not present, and was inserted at line 43
+18:05:08.615 [aplicacao-2] Request cliente-2-24-80a8b22e-5c0e-4921-9293-6f217c583c46 served by localhost:7002
+18:05:08.615 [aplicacao-2] The number 467 is prime, was not present, and was inserted at line 45
+18:05:09.371 [aplicacao-2] Request cliente-2-26-4935381e-006b-48f7-a839-f0d8c0ec5f34 served by localhost:7001
+18:05:09.371 [aplicacao-2] The number 59 is prime, was not present, and was inserted at line 49
+18:05:10.056 [aplicacao-2] Request cliente-1-28-aac73b1d-df7e-41d5-a523-6a6d58705cf6 served by localhost:7001
+18:05:10.056 [aplicacao-2] The number 335 is not prime, was not present, and was inserted at line 54
+18:05:10.482 [aplicacao-2] Request cliente-2-30-bbbaf4fb-9bec-4e50-8e71-9744b964aabe served by localhost:7002
+18:05:10.482 [aplicacao-2] The number 798 is not prime, was not present, and was inserted at line 57
+18:05:10.718 [aplicacao-2] Request cliente-2-31-061692d5-77dc-43c8-b541-a6a1e45e9195 served by localhost:7001
+18:05:10.718 [aplicacao-2] The number 415 is not prime, was not present, and was inserted at line 58
+18:05:11.073 [aplicacao-2] Request cliente-2-33-78205fb5-20da-419c-af2e-847e2ab81687 served by localhost:7001
+18:05:11.073 [aplicacao-2] The number 696 is not prime, was not present, and was inserted at line 63
+18:05:11.421 [aplicacao-2] Request cliente-2-35-b3381af5-295f-46dd-9c16-6ca86c02048b served by localhost:7002
+18:05:11.422 [aplicacao-2] The number 325 is not prime, was not present, and was inserted at line 65
+18:05:11.422 [aplicacao-2] Request cliente-2-34-cf63ae36-276d-421e-9e42-18c2de96e975 served by localhost:7002
+18:05:11.423 [aplicacao-2] The number 368 is not prime, was not present, and was inserted at line 66
+18:05:11.782 [aplicacao-2] Request cliente-2-37-1efce5e1-cfb6-4041-bed4-be3cfa011b4a served by localhost:7001
+18:05:11.782 [aplicacao-2] The number 21 is not prime, was not present, and was inserted at line 72
+18:05:12.073 [aplicacao-2] Request cliente-2-38-36c914a1-560a-451f-93fb-0a01466435cb served by localhost:7001
+18:05:12.073 [aplicacao-2] The number 88 is not prime, was not present, and was inserted at line 75
+18:05:12.073 [aplicacao-2] Request cliente-1-40-8e6784dd-dee8-4471-9fdc-b35daf7eda5f served by localhost:7001
+18:05:12.074 [aplicacao-2] The number 183 is not prime, was not present, and was inserted at line 76
+18:05:12.196 [aplicacao-2] Request cliente-2-42-eb27abe6-fde4-41e8-9f9b-7a9184471423 served by localhost:7002
+18:05:12.196 [aplicacao-2] The number 765 is not prime, was not present, and was inserted at line 79
+18:05:12.383 [aplicacao-2] Request cliente-1-43-afd63f83-febe-4f1a-82dd-f2098804eb19 served by localhost:7001
+18:05:12.384 [aplicacao-2] The number 439 is prime, was not present, and was inserted at line 81
+18:05:12.625 [aplicacao-2] Request cliente-2-45-9a51a9b0-7a29-4ad4-bf2d-ff3280887e97 served by localhost:7001
+18:05:12.625 [aplicacao-2] The number 983 is prime, was not present, and was inserted at line 82
+18:05:12.831 [aplicacao-2] Request cliente-1-46-2ab021ae-5b6c-48cc-b3b5-7935e9b8b5c2 served by localhost:7002
+18:05:12.831 [aplicacao-2] The number 538 is not prime, was not present, and was inserted at line 86
+18:05:13.390 [aplicacao-2] Request cliente-1-47-7a5d0755-94ce-4b2f-a877-ba26fb8c0c53 served by localhost:7001
+18:05:13.390 [aplicacao-2] The number 882 is not prime, was not present, and was inserted at line 90
+18:05:13.861 [aplicacao-2] Request cliente-2-50-d1108dd5-65be-4b2e-83d8-851f294b9710 served by localhost:7002
+18:05:13.861 [aplicacao-2] The number 73 is prime, was not present, and was inserted at line 93
+18:05:14.132 [aplicacao-2] Request cliente-2-59-6e6c0946-caed-40fa-9e64-3b45888d3455 served by localhost:7001
+18:05:14.132 [aplicacao-2] The number 860 is not prime and is already stored at line 23
+18:05:14.553 [aplicacao-2] Request cliente-1-50-164e4988-0890-45c1-8f46-23c59f2d60cc served by localhost:7002
+18:05:14.553 [aplicacao-2] The number 858 is not prime, was not present, and was inserted at line 96
+18:05:14.829 [aplicacao-2] Request cliente-2-63-1f4c73bc-2fde-43f9-9bf0-680b44574598 served by localhost:7001
+18:05:14.829 [aplicacao-2] The number 279 is not prime and is already stored at line 48
+18:05:14.849 [aplicacao-2] Request cliente-1-65-a62f0dae-d646-48ef-9279-c84fc64b29c8 served by localhost:7002
+18:05:14.849 [aplicacao-2] The number 923 is not prime and is already stored at line 73
+18:05:14.850 [aplicacao-2] Request cliente-2-53-c789490e-b013-414c-afa3-10485dc777e0 served by localhost:7001
+18:05:14.850 [aplicacao-2] The number 529 is not prime, was not present, and was inserted at line 100
+18:05:15.383 [aplicacao-2] Request cliente-2-55-df799efe-444f-44cb-a5ce-2d774b3465d6 served by localhost:7001
+18:05:15.383 [aplicacao-2] The number 34 is not prime, was not present, and was inserted at line 103
+18:05:15.636 [aplicacao-2] Request cliente-1-54-62267b13-2780-4e3e-bec3-096e054f7dd0 served by localhost:7002
+18:05:15.636 [aplicacao-2] The number 65 is not prime, was not present, and was inserted at line 104
+18:05:16.045 [aplicacao-2] Request cliente-1-56-2d8b9e5c-f4b3-4bb9-a2d8-ee9063e1d7b5 served by localhost:7002
+18:05:16.045 [aplicacao-2] The number 146 is not prime, was not present, and was inserted at line 108
+18:05:16.450 [aplicacao-2] Request cliente-1-59-2fa4af35-4f2c-41c4-9506-583c3c4c5686 served by localhost:7001
+18:05:16.450 [aplicacao-2] The number 396 is not prime, was not present, and was inserted at line 111
+18:05:16.800 [aplicacao-2] Request cliente-2-62-817faf52-0552-450a-8d53-e9662f9e12f8 served by localhost:7002
+18:05:16.801 [aplicacao-2] The number 198 is not prime, was not present, and was inserted at line 113
+18:05:17.489 [aplicacao-2] Request cliente-2-65-9e5648dc-1a31-4fe5-80e7-362234c97a51 served by localhost:7002
+18:05:17.489 [aplicacao-2] The number 469 is not prime, was not present, and was inserted at line 119
+18:05:17.603 [aplicacao-2] Request cliente-1-78-cb48a676-f702-4f84-8003-c3fe51e5f8be served by localhost:7002
+18:05:17.604 [aplicacao-2] The number 315 is not prime and is already stored at line 97
+18:05:17.771 [aplicacao-2] Request cliente-2-68-889a3f4f-8c82-4c9d-af74-bcd8f2b2f282 served by localhost:7001
+18:05:17.771 [aplicacao-2] The number 628 is not prime, was not present, and was inserted at line 120
+18:05:17.905 [aplicacao-2] Request cliente-1-68-e129685a-4e8c-47f9-9da5-d357c8e495f1 served by localhost:7002
+18:05:17.906 [aplicacao-2] The number 526 is not prime, was not present, and was inserted at line 125
+18:05:18.074 [aplicacao-2] Request cliente-2-71-7470798f-3fab-4a3e-953c-a97fec7d0d74 served by localhost:7001
+18:05:18.074 [aplicacao-2] The number 9 is not prime, was not present, and was inserted at line 126
+18:05:18.557 [aplicacao-2] Request cliente-1-71-0540ccf4-1327-46f2-8ff2-37005c0e7564 served by localhost:7002
+18:05:18.558 [aplicacao-2] The number 976 is not prime, was not present, and was inserted at line 130
+18:05:18.793 [aplicacao-2] Request cliente-2-87-cdc6727a-f070-450b-87d6-8cc12aea2072 served by localhost:7002
+18:05:18.793 [aplicacao-2] The number 66 is not prime and is already stored at line 42
+18:05:18.797 [aplicacao-2] Request cliente-2-74-5d0d5a3f-0e1e-4929-be11-253fb7026c68 served by localhost:7001
+18:05:18.797 [aplicacao-2] The number 648 is not prime, was not present, and was inserted at line 134
+18:05:18.921 [aplicacao-2] Request cliente-1-74-df0b454d-eac1-484e-aca6-c37de757a8bf served by localhost:7002
+18:05:18.921 [aplicacao-2] The number 614 is not prime, was not present, and was inserted at line 135
+18:05:19.370 [aplicacao-2] Request cliente-1-75-19205c91-9564-4930-a458-926910a96554 served by localhost:7001
+18:05:19.370 [aplicacao-2] The number 633 is not prime, was not present, and was inserted at line 138
+18:05:19.897 [aplicacao-2] Request cliente-1-77-69207442-aebc-4be5-8413-75628983e803 served by localhost:7002
+18:05:19.897 [aplicacao-2] The number 454 is not prime, was not present, and was inserted at line 141
+18:05:20.081 [aplicacao-2] Request cliente-1-80-4154353a-f879-49e5-92eb-5508c3163f09 served by localhost:7001
+18:05:20.081 [aplicacao-2] The number 845 is not prime, was not present, and was inserted at line 142
+18:05:20.584 [aplicacao-2] Request cliente-2-84-621be842-6fc0-4d6d-8a8c-974ed87aa13e served by localhost:7001
+18:05:20.584 [aplicacao-2] The number 306 is not prime, was not present, and was inserted at line 144
+18:05:20.860 [aplicacao-2] Request cliente-2-85-1d45bf21-b472-4f23-bfc4-f67db5bb0b41 served by localhost:7001
+18:05:20.860 [aplicacao-2] The number 992 is not prime, was not present, and was inserted at line 146
+18:05:21.304 [aplicacao-2] Request cliente-1-97-7c98fdf9-1b33-4fe8-a2a5-9f5f7ce5dbf8 served by localhost:7002
+18:05:21.304 [aplicacao-2] The number 158 is not prime and is already stored at line 74
+18:05:21.428 [aplicacao-2] Request cliente-1-85-3ab6e6c4-c218-4a20-8ace-1c118e7f0f18 served by localhost:7001
+18:05:21.428 [aplicacao-2] The number 151 is prime, was not present, and was inserted at line 150
+18:05:21.778 [aplicacao-2] Request cliente-2-90-601c1222-9862-4151-96e9-05664cf87966 served by localhost:7002
+18:05:21.778 [aplicacao-2] The number 50 is not prime, was not present, and was inserted at line 153
+18:05:23.091 [aplicacao-2] Request cliente-2-92-8649d494-fed7-465c-922b-247ef6fae4f6 served by localhost:7002
+18:05:23.091 [aplicacao-2] The number 825 is not prime, was not present, and was inserted at line 159
+18:05:23.091 [aplicacao-2] Request cliente-1-89-a00ec419-da6f-476e-befa-99c9380a471b served by localhost:7001
+18:05:23.091 [aplicacao-2] The number 255 is not prime, was not present, and was inserted at line 160
+18:05:23.389 [aplicacao-2] Request cliente-2-95-4dcf1176-1adf-4ccb-ae6e-00916dc46fca served by localhost:7001
+18:05:23.389 [aplicacao-2] The number 446 is not prime, was not present, and was inserted at line 161
+18:05:23.663 [aplicacao-2] Request cliente-2-96-d7d4e46d-8d79-4139-9684-e321dc8ce86a served by localhost:7002
+18:05:23.663 [aplicacao-2] The number 256 is not prime, was not present, and was inserted at line 166
+18:05:23.919 [aplicacao-2] Request cliente-2-98-aa7c9f69-6a80-4bf2-bc09-fa050f4027c3 served by localhost:7001
+18:05:23.920 [aplicacao-2] The number 694 is not prime, was not present, and was inserted at line 167
+18:05:24.070 [aplicacao-2] Request cliente-2-103-0f001b4a-2482-45b4-87b6-7f1b4582459b served by localhost:7002
+18:05:24.070 [aplicacao-2] The number 457 is prime, was not present, and was inserted at line 172
+18:05:24.073 [aplicacao-2] Request cliente-1-95-390c9672-2c58-402e-ad4c-a779d7b9b21a served by localhost:7002
+18:05:24.073 [aplicacao-2] The number 311 is prime, was not present, and was inserted at line 175
+18:05:24.074 [aplicacao-2] Request cliente-1-99-50e4bdab-4dfb-40d0-b079-1565af22f64f served by localhost:7001
+18:05:24.075 [aplicacao-2] The number 330 is not prime, was not present, and was inserted at line 177
+18:05:24.077 [aplicacao-2] Request cliente-1-100-1f0078fd-07c1-4311-86c8-9d531fa8891d served by localhost:7002
+18:05:24.077 [aplicacao-2] The number 779 is not prime, was not present, and was inserted at line 179
+18:05:24.082 [aplicacao-2] Request cliente-2-108-0715e071-d574-4c1e-816b-49edc06bf8b7 served by localhost:7001
+18:05:24.083 [aplicacao-2] The number 206 is not prime, was not present, and was inserted at line 185
+18:05:24.084 [aplicacao-2] Request cliente-2-109-2155ce2e-8085-473c-96c5-3d75af3ea28c served by localhost:7002
+18:05:24.084 [aplicacao-2] The number 543 is not prime, was not present, and was inserted at line 186
+18:05:24.086 [aplicacao-2] Request cliente-2-111-ba538bda-2e3a-4d4b-8d21-f1855e707f9e served by localhost:7001
+18:05:24.086 [aplicacao-2] The number 736 is not prime, was not present, and was inserted at line 188
+18:05:24.088 [aplicacao-2] Request cliente-1-106-205013a6-b19e-408a-988d-0f19e17858fd served by localhost:7001
+18:05:24.088 [aplicacao-2] The number 473 is not prime, was not present, and was inserted at line 190
